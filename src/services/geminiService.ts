@@ -50,19 +50,24 @@ export async function generateQuiz(category: string, count: number = 5): Promise
     const data = await response.json();
     
     // Extract the text response from Gemini
-    const textResponse = data.contents?.[0]?.parts?.[0]?.text;
+    const textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
     
     if (!textResponse) {
       throw new Error('No text in response from Gemini API');
     }
 
-    // Extract JSON from the response
-    const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('Could not extract JSON from the response');
+    // Extract JSON from the response - handling markdown code blocks if present
+    let jsonText = textResponse;
+    
+    // Check if response is wrapped in markdown code blocks
+    const jsonMatch = textResponse.match(/```(?:json)?\s*(\{[\s\S]*\})\s*```/);
+    if (jsonMatch && jsonMatch[1]) {
+      jsonText = jsonMatch[1]; // Extract just the JSON part
     }
-
-    const quizData = JSON.parse(jsonMatch[0]);
+    
+    // Clean up any remaining text and parse the JSON
+    console.log("Cleaned JSON text:", jsonText);
+    const quizData = JSON.parse(jsonText);
 
     // Format the response to match our Quiz type
     const formattedQuiz: Quiz = {
