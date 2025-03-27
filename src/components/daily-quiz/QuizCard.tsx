@@ -5,6 +5,8 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Clock, Flame, ListChecks } from 'lucide-react';
 import { Quiz } from '@/types/quiz';
+import { useNavigate } from 'react-router-dom';
+import { toast } from '@/hooks/use-toast';
 
 interface QuizCardProps {
   quiz: Quiz;
@@ -21,6 +23,24 @@ const QuizCard: React.FC<QuizCardProps> = ({
   getDifficultyColor, 
   getRandomDuration 
 }) => {
+  const navigate = useNavigate();
+  
+  const handleStartQuiz = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering the card click
+    
+    // Store the current quiz in localStorage
+    localStorage.setItem('currentQuiz', JSON.stringify(quiz));
+    
+    // Show toast notification
+    toast({
+      title: "Quiz Started!",
+      description: "Good luck with your quiz",
+    });
+    
+    // Navigate to the quiz page
+    navigate(`/quiz/${quiz.id}`);
+  };
+  
   return (
     <Card 
       key={quiz.id} 
@@ -65,7 +85,7 @@ const QuizCard: React.FC<QuizCardProps> = ({
         </div>
         
         <div className="p-4 sm:p-6 flex items-center justify-center border-t sm:border-t-0 sm:border-l border-border/50 bg-background/30">
-          <Button variant="ghost" className="gap-1">
+          <Button variant="ghost" className="gap-1" onClick={handleStartQuiz}>
             Start <ArrowRight className="w-4 h-4" />
           </Button>
         </div>

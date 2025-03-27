@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -29,13 +28,11 @@ const QuizDetail: React.FC<QuizDetailProps> = ({ quiz, onBack, getRandomDuration
       description: "Good luck with your quiz",
     });
     
-    // Navigate to the quiz page
-    // In a real application, you would navigate to a dedicated quiz page
-    // For now, we'll just show a toast notification
+    // Log quiz starting (for debugging)
     console.log("Starting quiz:", quiz.title);
     
-    // This would be uncommented in a real application:
-    // navigate(`/quiz/${quiz.id}`);
+    // Navigate to the quiz page
+    navigate(`/quiz/${quiz.id}`);
   };
   
   return (

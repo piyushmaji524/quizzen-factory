@@ -10,6 +10,7 @@ import { AnimatePresence } from "framer-motion";
 import Index from "@/pages/Index";
 import CreateQuiz from "@/pages/CreateQuiz";
 import DailyQuiz from "@/pages/DailyQuiz";
+import QuizPlay from "@/pages/QuizPlay";
 import About from "@/pages/About";
 import Developer from "@/pages/Developer";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/create-quiz" element={<CreateQuiz />} />
             <Route path="/daily-quiz" element={<DailyQuiz />} />
+            <Route path="/quiz/:quizId" element={<QuizPlay />} />
             <Route path="/about" element={<About />} />
             <Route path="/developer" element={<Developer />} />
             
