@@ -7,6 +7,8 @@ import { Separator } from '@/components/ui/separator';
 import { Award, BarChart3, Brain, Clock, ListChecks } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Quiz } from '@/types/quiz';
+import { useNavigate } from 'react-router-dom';
+import { toast } from '@/hooks/use-toast';
 
 interface QuizDetailProps {
   quiz: Quiz;
@@ -15,6 +17,27 @@ interface QuizDetailProps {
 }
 
 const QuizDetail: React.FC<QuizDetailProps> = ({ quiz, onBack, getRandomDuration }) => {
+  const navigate = useNavigate();
+  
+  const handleStartQuiz = () => {
+    // Store the current quiz in localStorage to access it on the quiz page
+    localStorage.setItem('currentQuiz', JSON.stringify(quiz));
+    
+    // Show toast notification
+    toast({
+      title: "Quiz Started!",
+      description: "Good luck with your quiz",
+    });
+    
+    // Navigate to the quiz page
+    // In a real application, you would navigate to a dedicated quiz page
+    // For now, we'll just show a toast notification
+    console.log("Starting quiz:", quiz.title);
+    
+    // This would be uncommented in a real application:
+    // navigate(`/quiz/${quiz.id}`);
+  };
+  
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -96,7 +119,7 @@ const QuizDetail: React.FC<QuizDetailProps> = ({ quiz, onBack, getRandomDuration
         </CardContent>
         
         <CardFooter className="flex flex-col space-y-4">
-          <Button className="w-full">
+          <Button className="w-full" onClick={handleStartQuiz}>
             <Brain className="w-4 h-4 mr-2" />
             Start Quiz
           </Button>
